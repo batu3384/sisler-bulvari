@@ -1,0 +1,120 @@
+/* Genel Ayarlar */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9fafb;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    height: 100vh;
+    width: 240px;
+    background-color: #1e88e5;
+    color: white;
+    padding-top: 20px;
+}
+
+.sidebar h5 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: #1565c0;
+    border-left: 3px solid white;
+}
+
+/* İçerik */
+.content {
+    margin-left: 240px;
+    padding: 20px;
+}
+
+/* Tablolar */
+.table-responsive {
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+    background-color: #1e88e5;
+    color: white;
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #f0f8ff;
+}
+/* Ürün Ekle/Sil Butonları */
+button {
+    margin-bottom: 10px;
+}
+
+button.btn-danger {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+/* Tablolar */
+.table th, .table td {
+    vertical-align: middle; /* İçerikleri ortalar */
+}
+
+.table th {
+    background-color: #1e88e5;
+    color: white;
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #f0f8ff;
+}
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    display: block;
+}
+
+.sidebar a.active {
+    background-color: hsla(210, 64%, 48%, 0.914);
+    font-weight: bold;
+}
+/* Kategori Başlıkları */
+.category-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 10px;
+    text-align: left;
+    border-left: 5px solid #007bff;
+    padding-left: 10px;
+}
+
+/* Kategori Bölümleri */
+.category-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tablolar */
+.table {
+    margin-top: 10px;
+}

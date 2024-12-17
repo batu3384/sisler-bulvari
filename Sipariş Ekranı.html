@@ -1,0 +1,469 @@
+SİPARİŞ SON EKRAN11:27 11.12.2024
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sisler Bulvarı Kafe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f2f2f2;
+            color: #333;
+            position: relative;
+        }
+
+        .menu {
+            width: 40%;
+            background-color: #fff;
+            padding: 20px;
+            border-right: 2px solid #ccc;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            position: relative;
+        }
+
+        .menu h1 {
+            text-align: center;
+            color: #555;
+        }
+
+        .table-number {
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e7f1ff;
+        }
+
+        .table-number input {
+            padding: 8px;
+            width: 150px;
+            border: 1px solid #007BFF;
+            border-radius: 3px;
+        }
+
+        .table-number button {
+            margin-left: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .table-number button:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-category {
+            margin-top: 20px;
+        }
+
+        .menu-category h2 {
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            color: #007BFF;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fafafa;
+            transition: background-color 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f8ff;
+        }
+
+        .menu-item button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .menu-item button:hover {
+            background-color: #218838;
+        }
+
+        .cart {
+            width: 60%;
+            padding: 20px;
+            overflow-y: auto;
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart h2 {
+            border-bottom: 2px solid #ffc107;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            color: #ffc107;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .cart-item button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .cart-item button:hover {
+            background-color: #0056b3;
+        }
+
+        .order-message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: green;
+        }
+
+        #toggle-cart-button {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute; 
+            right: 20px;
+            top: 20px; 
+        }
+
+        #toggle-cart-button:hover {
+            background-color: #e0a800;
+        }
+
+        #order-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute; 
+            right: 20px;
+            top: 60px; /
+        }
+
+        #order-button:hover {
+            background-color: #218838;
+        }
+
+        .total-price {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <h1>Sisler Bulvarı Kafe</h1>
+
+        <div class="table-number">
+            <label for="table-input">Masa No:</label>
+            <input type="text" id="table-input" placeholder="Masa numaranızı girin" />
+            <button id="save-table-button">Kaydet</button>
+        </div>
+
+        <div id="menu-categories"></div>
+        <button id="toggle-cart-button">Sepeti Göster</button>
+    </div>
+
+    <div class="cart" id="cart">
+        <h2>Sepet</h2>
+        <div id="cart-items"></div>
+        <div class="total-price" id="total-price">Toplam: 0 TL</div>
+        <button id="order-button">Sipariş Ver</button>
+        <div class="order-message" id="order-message"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Serpme Kahvaltı", price: 675, category: "Kahvaltılar" },
+            { id: 2, name: "Tek Kişilik Kahvaltı Tabağı", price: 365, category: "Kahvaltılar" },
+            { id: 3, name: "Sahanda Yumurta", price: 120, category: "Kahvaltılar" },
+            { id: 4, name: "Sucuklu Yumurta", price: 140, category: "Kahvaltılar" },
+            { id: 5, name: "Beyaz Peynirli Omlet", price: 135, category: "Kahvaltılar" },
+            { id: 6, name: "Kaşarlı Omlet", price: 135, category: "Kahvaltılar" },
+            { id: 7, name: "Menemen", price: 170, category: "Kahvaltılar" },
+            { id: 8, name: "Kaşarlı Sucuklu Menemen", price: 195, category: "Kahvaltılar" },
+            { id: 9, name: "Burger Tabağı", price: 280, category: "Kahvaltılar" },
+            { id: 10, name: "Sosis Tava", price: 135, category: "Kahvaltılar" },
+            { id: 11, name: "Patates Tabağı", price: 115, category: "Atıştırmalıklar" },
+            { id: 12, name: "Sisler Atıştırmalık Tabağı", price: 180, category: "Atıştırmalıklar" },
+            { id: 13, name: "Sigara Böreği", price: 120, category: "Atıştırmalıklar" },
+            { id: 14, name: "Paçanga Böreği", price: 190, category: "Atıştırmalıklar" },
+            { id: 15, name: "Tortilla", price: 200, category: "Atıştırmalıklar" },
+            { id: 16, name: "Kurabiye Tabağı", price: 80, category: "Atıştırmalıklar" },
+            { id: 17, name: "Kestane", price: 170, category: "Atıştırmalıklar" },
+            { id: 18, name: "Beyaz Peynirli Gözleme", price: 170, category: "Gözlemeler" },
+            { id: 19, name: "Kaşar Peynirli Gözleme", price: 170, category: "Gözlemeler" },
+            { id: 20, name: "Kaşarlı Yumurtalı Gözleme", price: 195, category: "Gözlemeler" },
+            { id: 21, name: "Kaşarlı Mantarlı Gözleme", price: 195, category: "Gözlemeler" },
+            { id: 22, name: "Karışık Gözleme", price: 195, category: "Gözlemeler" },
+            { id: 23, name: "Kavurmalı Gözleme", price: 210, category: "Gözlemeler" },
+            { id: 24, name: "Kaşarlı Tost", price: 115, category: "Tostlar" },
+            { id: 25, name: "Karışık Tost", price: 135, category: "Tostlar" },
+            { id: 26, name: "Beyaz Peynirli Tost", price: 115, category: "Tostlar" },
+            { id: 27, name: "Kavurmalı Tost", price: 180, category: "Tostlar" },
+            { id: 28, name: "Sisler Bulvarı Spesyal Tost", price: 210, category: "Tostlar" },
+            { id: 29, name: "Ton Balıklı Sandviç", price: 160, category: "Sandviçler" },
+            { id: 30, name: "Beyaz Peynirli Sandviç", price: 125, category: "Sandviçler" },
+            { id: 31, name: "Kaşarlı Sandviç", price: 125, category: "Sandviçler" },
+            { id: 32, name: "Kaşarlı Salamlı Sandviç", price: 135, category: "Sandviçler" },
+            { id: 33, name: "Mantı", price: 220, category: "Yemekler" },
+            { id: 34, name: "Tikka Masala Soslu Penne", price: 230, category: "Makarnalar" },
+            { id: 35, name: "Krema Soslu Penne", price: 230, category: "Makarnalar" },
+            { id: 36, name: "Köri Soslu Penne", price: 230, category: "Makarnalar" },
+            { id: 37, name: "Pesto Soslu Penne", price: 230, category: "Makarnalar" },
+            { id: 38, name: "Penne Arabiata", price: 210, category: "Makarnalar" },
+            { id: 39, name: "Tavuk Pirzola", price: 250, category: "Ana Yemekler" },
+            { id: 40, name: "Tavuk Biftek", price: 250, category: "Ana Yemekler" },
+            { id: 41, name: "Köri Soslu Tavuk", price: 250, category: "Ana Yemekler" },
+            { id: 42, name: "Krema Soslu Tavuk", price: 250, category: "Ana Yemekler" },
+            { id: 43, name: "Tikka Masala Soslu Tavuk", price: 265, category: "Ana Yemekler" },
+            { id: 44, name: "Dondurma Top", price: 30, category: "Tatlılar" },
+            { id: 45, name: "Mozaik Pasta", price: 160, category: "Tatlılar" },
+            { id: 46, name: "Yanardağ Pasta", price: 180, category: "Tatlılar" },
+            { id: 47, name: "Marlenka", price: 180, category: "Tatlılar" },
+            { id: 48, name: "Tiramisu", price: 170, category: "Tatlılar" },
+            { id: 49, name: "Limonlu Cheesecake", price: 180, category: "Tatlılar" },
+            { id: 50, name: "Frambuazlı Cheesecake", price: 180, category: "Tatlılar" },
+            { id: 51, name: "Magnolia", price: 160, category: "Tatlılar" },
+            { id: 52, name: "Sufle", price: 180, category: "Tatlılar" },
+            { id: 53, name: "Sıcak Çikolata", price: 95, category: "İçecekler" },
+            { id: 54, name: "Sıcak Süt", price: 60, category: "İçecekler" },
+            { id: 55, name: "Ballı Süt", price: 85, category: "İçecekler" },
+            { id: 56, name: "Çay", price: 25, category: "İçecekler" },
+            { id: 57, name: "Bitki Çayı", price: 60, category: "İçecekler" },
+            { id: 58, name: "Türk Kahvesi", price: 80, category: "İçecekler" },
+            { id: 59, name: "Espresso", price: 85, category: "İçecekler" },
+            { id: 60, name: "Double Espresso", price: 115, category: "İçecekler" },
+            { id: 61, name: "Americano", price: 110, category: "İçecekler" },
+            { id: 62, name: "Cappuccino", price: 125, category: "İçecekler" },
+            { id: 63, name: "Latte", price: 125, category: "İçecekler" },
+            { id: 64, name: "Mocha", price: 135, category: "İçecekler" },
+            { id: 65, name: "Macchiato", price: 120, category: "İçecekler" },
+            { id: 66, name: "Affogato", price: 130, category: "İçecekler" },
+            { id: 67, name: "Frappe", price: 140, category: "İçecekler" },
+            { id: 68, name: "Soğuk Çay", price: 80, category: "İçecekler" },
+            { id: 69, name: "Limonata", price: 85, category: "İçecekler" },
+            { id: 70, name: "Taze Portakal Suyu", price: 115, category: "İçecekler" },
+            { id: 71, name: "Gazoz", price: 55, category: "İçecekler" },
+            { id: 72, name: "Soda", price: 35, category: "İçecekler" },
+            { id: 73, name: "Su", price: 25, category: "İçecekler" },
+            { id: 74, name: "Coca Cola", price: 60, category: "İçecekler" },
+            { id: 75, name: "Fanta", price: 60, category: "İçecekler" },
+            { id: 76, name: "Sprite", price: 60, category: "İçecekler" },
+            { id: 77, name: "Ayran", price: 40, category: "İçecekler" },
+            { id: 78, name: "Milkshake Çilekli", price: 140, category: "İçecekler" },
+            { id: 79, name: "Milkshake Çikolatalı", price: 140, category: "İçecekler" },
+            { id: 80, name: "Milkshake Vanilyalı", price: 140, category: "İçecekler" },
+            { id: 81, name: "Smoothie Çilekli", price: 150, category: "İçecekler" },
+            { id: 82, name: "Smoothie Muzlu", price: 150, category: "İçecekler" },
+            { id: 83, name: "Smoothie Karışık Meyveli", price: 150, category: "İçecekler" },
+            { id: 84, name: "Enerji İçeceği", price: 180, category: "İçecekler" },
+            { id: 85, name: "White Chocolate Mocha", price: 100, category: "İçecekler" },
+            { id: 86, name: "Karamel Macchiato", price: 100, category: "İçecekler" },
+            { id: 87, name: "Kappucino", price: 95, category: "İçecekler" },
+            { id: 88, name: "Affogato", price: 125, category: "İçecekler" },
+            { id: 89, name: "Adaçayı", price: 85, category: "İçecekler" },
+            { id: 90, name: "Ihlamur", price: 85, category: "İçecekler" },
+            { id: 91, name: "Papatya Çayı", price: 85, category: "İçecekler" },
+            { id: 92, name: "Yeşil Çay", price: 85, category: "İçecekler" },
+            { id: 93, name: "Melisa Çayı", price: 85, category: "İçecekler" },
+            { id: 94, name: "Elma Çayı", price: 85, category: "İçecekler" },
+            { id: 95, name: "Kış Çayı", price: 90, category: "İçecekler" },
+            { id: 96, name: "Hasta Çayı", price: 90, category: "İçecekler" },
+            { id: 97, name: "Çikolatalı Milkshake", price: 110, category: "İçecekler" },
+            { id: 98, name: "Karamelli Milkshake", price: 110, category: "İçecekler" },
+            { id: 99, name: "Çilekli Milkshake", price: 110, category: "İçecekler" },
+            { id: 100, name: "Orman Meyveli Milkshake", price: 110, category: "İçecekler" },
+            { id: 101, name: "Frambuazlı Milkshake", price: 110, category: "İçecekler" },
+            { id: 102, name: "Vanilyalı Milkshake", price: 110, category: "İçecekler" },
+            { id: 103, name: "Karpuz Çilekli Milkshake", price: 110, category: "İçecekler" },
+            { id: 104, name: "Karpuzlu Milkshake", price: 110, category: "İçecekler" },
+            { id: 105, name: "Kivili Milkshake", price: 110, category: "İçecekler" },
+            { id: 106, name: "Muzlu Milkshake", price: 110, category: "İçecekler" },
+            { id: 107, name: "Oreolu Milkshake", price: 165, category: "İçecekler" },
+            { id: 108, name: "Brownieli Milkshake", price: 165, category: "İçecekler" },
+            { id: 109, name: "İced Americano", price: 100, category: "İçecekler" },
+            { id: 110, name: "İced Latte", price: 110, category: "İçecekler" },
+            { id: 111, name: "İced Mocha", price: 120, category: "İçecekler" },
+            { id: 112, name: "Frappe", price: 100, category: "İçecekler" },
+            { id: 113, name: "Cold Brew", price: 125, category: "İçecekler" },
+            { id: 114, name: "Limonata", price: 95, category: "İçecekler" },
+            { id: 115, name: "Çilekli Limonata", price: 105, category: "İçecekler" },
+            { id: 116, name: "Karadut", price: 95, category: "İçecekler" },
+            { id: 117, name: "Sıkma Portakal Suyu", price: 110, category: "İçecekler" },
+            { id: 118, name: "Smoothie +", price: 110, category: "İçecekler" },
+            { id: 119, name: "Frozen +", price: 105, category: "İçecekler" },
+            { id: 120, name: "Blue Lagon", price: 105, category: "İçecekler" },
+            { id: 121, name: "Ice Tea", price: 65, category: "İçecekler" },
+            { id: 122, name: "Pepsi", price: 65, category: "İçecekler" },
+            { id: 123, name: "Yedigün", price: 65, category: "İçecekler" },
+            { id: 124, name: "SevenUp", price: 65, category: "İçecekler" },
+            { id: 125, name: "Meyve Suyu", price: 65, category: "İçecekler" },
+            { id: 126, name: "Soda", price: 45, category: "İçecekler" },
+            { id: 127, name: "Meyveli Soda", price: 50, category: "İçecekler" },
+            { id: 128, name: "Sıkma Limon Soda", price: 60, category: "İçecekler" },
+            { id: 129, name: "Churchill", price: 65, category: "İçecekler" },
+            { id: 130, name: "Ayran", price: 50, category: "İçecekler" },
+            { id: 131, name: "Su", price: 20, category: "İçecekler" }
+        ];
+
+        const cart = {};
+        let tableNumber = '';
+
+        const menuCategoriesContainer = document.getElementById('menu-categories');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const totalPriceElement = document.getElementById('total-price');
+        const orderMessage = document.getElementById('order-message');
+        const tableInput = document.getElementById('table-input');
+        const saveTableButton = document.getElementById('save-table-button');
+        const toggleCartButton = document.getElementById('toggle-cart-button');
+        const cartContainer = document.getElementById('cart');
+
+        function groupByCategory(products) {
+            const grouped = {};
+            products.forEach(product => {
+                if (!grouped[product.category]) {
+                    grouped[product.category] = [];
+                }
+                grouped[product.category].push(product);
+            });
+            return grouped;
+        }
+
+        function renderMenu() {
+            const groupedProducts = groupByCategory(products);
+            menuCategoriesContainer.innerHTML = '';
+
+            Object.keys(groupedProducts).forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'menu-category';
+
+                const categoryTitle = document.createElement('h2');
+                categoryTitle.textContent = category;
+                categoryDiv.appendChild(categoryTitle);
+
+                groupedProducts[category].forEach(product => {
+                    const menuItem = document.createElement('div');
+                    menuItem.className = 'menu-item';
+
+                    menuItem.innerHTML = `
+                        <span>${product.name} - ${product.price} TL</span>
+                        <button onclick="addToCart(${product.id})">Ekle</button>
+                    `;
+
+                    categoryDiv.appendChild(menuItem);
+                });
+
+                menuCategoriesContainer.appendChild(categoryDiv);
+            });
+        }
+
+        function renderCart() {
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+
+            Object.keys(cart).forEach(productId => {
+                const product = products.find(p => p.id == productId);
+                const quantity = cart[productId];
+                const itemPrice = product.price * quantity;
+                totalPrice += itemPrice;
+
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+
+                cartItem.innerHTML = `
+                    <span>${product.name}</span>
+                    <div class="quantity">
+                        <button onclick="decreaseQuantity(${productId})">-</button>
+                        <span>${quantity}x</span>
+                        <button onclick="increaseQuantity(${productId})">+</button>
+                    </div>
+                    <span>${itemPrice} TL</span>
+                `;
+
+                cartItemsContainer.appendChild(cartItem);
+            });
+
+            totalPriceElement.textContent = `Toplam: ${totalPrice} TL`;
+        }
+
+        function addToCart(productId) {
+            if (!cart[productId]) {
+                cart[productId] = 0;
+            }
+            cart[productId]++;
+            renderCart();
+        }
+
+        function increaseQuantity(productId) {
+            cart[productId]++;
+            renderCart();
+        }
+
+        function decreaseQuantity(productId) {
+            if (cart[productId] > 1) {
+                cart[productId]--;
+            } else {
+                delete cart[productId];
+            }
+            renderCart();
+        }
+
+        saveTableButton.addEventListener('click', () => {
+            tableNumber = tableInput.value;
+            alert(`Masa numarası ${tableNumber} olarak kaydedildi!`);
+        });
+
+        toggleCartButton.addEventListener('click', () => {
+            cartContainer.style.display = cartContainer.style.display === "none" || cartContainer.style.display === ""
+                ? "block"
+                : "none";
+        });
+
+        document.getElementById('order-button').addEventListener('click', () => {
+            orderMessage.textContent = "Siparişiniz oluşturuldu! Masa No: " + tableNumber;
+        });
+
+        renderMenu();
+    </script>
+</body>
+</html>
